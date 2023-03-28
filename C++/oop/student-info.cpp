@@ -2,7 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-class Student
+ class  Student
 {
 public:
     double getFinalGrade()

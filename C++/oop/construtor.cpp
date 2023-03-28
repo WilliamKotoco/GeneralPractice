@@ -39,4 +39,15 @@ int main()
     cout << "Nome: " << teste.getString() << endl;
     cout << "Idade: " << teste.getAge() << endl;
     cout << "Grana: " << teste.getMoney() << endl;
+
+    Person anonymousObject[2]  = {Person("primeiro", 2, 34), Person("Segundo", 32, 930.4)};
+
+    for (int i = 0 ; i < 2 ; i++)
+    {
+
+    cout << "Info" << endl;
+    cout << "Nome: " << anonymousObject[i].getString() << endl;
+    cout << "Idade: " << anonymousObject[i].getAge() << endl;
+    cout << "Grana: " << anonymousObject[i].getMoney() << endl;
+    }    
 }
