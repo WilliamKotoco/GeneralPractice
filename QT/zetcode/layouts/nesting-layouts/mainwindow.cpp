@@ -1,11 +1,12 @@
 #include "mainwindow.h"
+#include "addform.h"
 #include<QPushButton>
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
     auto *vbox = new QVBoxLayout(); // sem o this porque não é pra ser aplicado nesse
     auto *hbox = new QHBoxLayout(this);
-
+      listWidget = new QListWidget(this);
     auto *list = new QListWidget(this);
     list->addItem("Tomate");
     list->addItem("Manteiga");
@@ -16,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     auto *editbtn = new QPushButton("Edit", this);
     auto *removebtn = new QPushButton("Remove", this);
     auto *clearbtn = new QPushButton("Clear", this);
-
     vbox->setSpacing(3);
     vbox->addStretch(1);
     vbox->addWidget(addbtn);
@@ -34,19 +34,27 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(addbtn, &QPushButton::clicked, this, [=] ()
     {
-        MainWindow::add(list, hbox);
+        MainWindow::add(list);
     });
-   // connect(remove, &QPushButton::clicked, this, &MainWindow::remove);
-    //connect(edit, &QPushButton::clicked, this, &MainWindow::edit);
-    //connect(clear, &QPushButton::clicked, this, &MainWindow::clear);
+
+
 
 
 }
 
-void MainWindow::add(QListWidget *list, QHBoxLayout *hbox)
+void MainWindow::add(QListWidget *list)
 {
-hbox->removeWidget(list);
-list->addItem("sample text");
-hbox->addWidget(list);
+listWidget = list;
+addForm *form = new addForm(this);
+form->resize(300,300);
+form->show();
+connect(form, &addForm::itemAdded, this, &MainWindow::addItemToList);
+ //list->addItem(item);
+
+}
+void MainWindow:: addItemToList(QString item)
+{
+listWidget->addItem(item);
+
 
 }

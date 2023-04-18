@@ -15,9 +15,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
 public slots:
-   // void remove();
-    void add(QListWidget *list , QHBoxLayout *);
+//    void remove(QListWidget *list);
+    void add(QListWidget *list);
+    void addItemToList(QString item);
+
    // void clear();
    // void edit();
+
+      private:
+          QListWidget *listWidget;
 };
+
+
 #endif // MAINWINDOW_H
