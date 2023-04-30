@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC VERSION="1.0">
+<qresource prefix = "/">
+<file>biostats.csv</file>
+</qresource>
+</RCC>

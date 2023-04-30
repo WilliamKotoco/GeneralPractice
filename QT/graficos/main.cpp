@@ -1,11 +1,12 @@
 #include "mainwindow.h"
 
-#include<QApplication>
+#include <QApplication>
+
 int main(int argc, char *argv[])
 {
-    qputenv("QSG_RHI_BACKEND", "opengl");
     QApplication a(argc, argv);
     MainWindow w;
+    w.setFixedSize(800, 500);
     w.show();
     return a.exec();
 }
