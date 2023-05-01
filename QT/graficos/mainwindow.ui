@@ -53,7 +53,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="BarButton">
        <property name="text">
         <string>3DBAR</string>
        </property>
@@ -76,9 +76,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="scatter">
        <property name="text">
-        <string>PushButton</string>
+        <string>SCATTER</string>
        </property>
       </widget>
      </item>

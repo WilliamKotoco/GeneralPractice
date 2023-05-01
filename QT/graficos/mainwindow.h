@@ -16,7 +16,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_2_clicked();
+    void on_pushButton_2_clicked(QVector<int> heights, QStringList names);
+
+    void on_scatter_clicked(QVector<int> heights, QStringList names);
+
 
 private:
     Ui::MainWindow *ui;

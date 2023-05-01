@@ -1,8 +1,9 @@
-#include "bar.h"
+   #include "bar.h"
 #include<QtDataVisualization>
+#include<Q3DTheme>
  #include <QMessageBox>
 #include<QFile>
-Bar::Bar(QWidget *parent)
+Bar::Bar(QWidget *parent, QVector<int> *heights, QStringList *names)
     : QMainWindow{parent}
 {
     /*
@@ -12,50 +13,32 @@ Bar::Bar(QWidget *parent)
      * todo: show the names of each height
      */
     using namespace QtDataVisualization;
-    QFile file(":/biostats.csv");
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        QMessageBox fail;
-        fail.setText("file doesn't exist");
-        fail.exec();
-        this->close();
-    }
-    else
-    {
-        QVector<int> heights;
-        QStringList names;
-        QTextStream in(&file);
+    this->heights = *heights;
+    this->names = *names;
 
-        while (! in.atEnd()) // reads the file lmao
-        {
-            QString line = in.readLine();
-            QStringList fields = line.split(","); // separates the fields in a list.
-            heights.append(fields[3].toInt());
-            names.append(fields[0]);
-
-        }
-
-        file.close();
 
 
     Q3DBars *bars = new Q3DBars();
-
+        Q3DTheme *theme = new Q3DTheme();
+    theme->setType(Q3DTheme::ThemeArmyBlue);
+        bars->setActiveTheme(theme);
     this->setCentralWidget(QWidget::createWindowContainer(bars));
     bars->setBarThickness(1.0);
     bars->setFlags(bars->flags() ^ Qt::FramelessWindowHint);
-   bars->rowAxis()->setRange(0, heights.length());
-    bars->columnAxis()->setRange(0, heights.length());
-   bars->columnAxis()->setLabels(names);
+    bars->rowAxis()->setRange(0, this->heights.length());
+    bars->columnAxis()->setRange(0, this->heights.length());
+
+    bars->columnAxis()->setLabels(this->names);
     bars->setTitle("Height in foot ");
     QBar3DSeries *series = new QBar3DSeries;
     QBarDataRow *data = new QBarDataRow;
 
-    for(int i =0; i < heights.length(); i++)
+    for(int i =0; i < this->heights.length(); i++)
     {
-            (*data).append(heights[i]);
+        (*data).append(this->heights[i]);
     }
     series->dataProxy()->addRow(data);
     bars->addSeries(series);
     bars->show();
     }
-}
+

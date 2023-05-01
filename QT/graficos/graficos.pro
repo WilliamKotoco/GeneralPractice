@@ -13,11 +13,13 @@ CONFIG += c++17
 SOURCES += \
     bar.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scatter.cpp
 
 HEADERS += \
     bar.h \
-    mainwindow.h
+    mainwindow.h \
+    scatter.h
 
 FORMS += \
     mainwindow.ui
