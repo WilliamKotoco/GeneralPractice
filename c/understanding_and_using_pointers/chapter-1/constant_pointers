@@ -1,0 +1,9 @@
+
+const int *ptr 
+
+Pointer to a constant int. We can dereferency it only for reading purpouse, not being
+able to change the value using *ptr = something;
+
+int *const ptr = %num;
+
+The pointer can't be modified, but the data pointed can.    
