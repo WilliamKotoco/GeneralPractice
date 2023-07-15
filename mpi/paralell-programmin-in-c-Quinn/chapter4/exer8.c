@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
 
     int magic_number = (number_of_process % 2 ) == 0 ? 1 : 0;
 
-//TODO: como fazer com que cada processor passe somente pelos ímpares ?
     for (int i = id; i < MAX; i += number_of_process + magic_number)
     {
         if(isPrime(i) && isPrime(i+2))
