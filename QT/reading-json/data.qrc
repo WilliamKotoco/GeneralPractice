@@ -1,6 +1,0 @@
-<!DOCTYPE RCC>
-<RCC VERSION = "1.0">
-<qresource prefix = "/">
-<file>anime-offline-database.json</file>
-</qresource>
-</RCC>
