@@ -19,7 +19,19 @@ func main() {
 		The go programming language doubles the capacity (for safety reasons)whenever you need append operations.
 		To optimize the space complexity, make sure to always initialize the slices with the amount of space you
 		think you'll use for sure.
+
+  More than safety reasons, doubling the capacity reduces the necessity of another reallocation soon.  
 	*/
 	s = append(s, 110)
-	fmt.Printf("len = %d, cap = %d, %v", len(s), cap(s), s)
+	fmt.Printf("len = %d, cap = %d, %v \n", len(s), cap(s), s)
+
+  /// checks that slices we always pass by reference, once it is a pointer to a sub-array
+  change_slice(s)
+  fmt.Print(s)
+}
+
+func change_slice(s []int){
+  s[0] = 900
+  s[1] = s[0] +49
+  s[2] = 3
 }
