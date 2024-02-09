@@ -1,0 +1,3 @@
+ Create a system for a coffee shop where customers can order different types of coffee with various toppings, and the Decorator pattern will be used to customize and add functionalities to the base coffee.
+
+
