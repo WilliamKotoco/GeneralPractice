@@ -69,7 +69,7 @@ float **matrix_cuda_malloc()
     return matrix;
 }
 
-void matrix_add(float *h_A, float *h_B, float *h_C)
+void matrix_add(float **h_A, float **h_B, float **h_C)
 {
     float **d_A = matrix_cuda_malloc();
     float **d_B = matrix_cuda_malloc();
@@ -77,6 +77,8 @@ void matrix_add(float *h_A, float *h_B, float *h_C)
 
     cudaMemcpy(d_A, h_A, N * sizeof(float *), cudaMemcpyKind::cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, h_B, N * sizeof(float *), cudaMemcpyKind::cudaMemcpyHostToDevice);
+
+
 
     cudaMemcpy(h_C, d_C, N * sizeof(float *), cudaMemcpyKind::cudaMemcpyDeviceToHost);
     cudaFree(d_A);
@@ -98,5 +100,6 @@ int main()
         }
     }
 
+    matrix_add(h_A, h_B, h_C);
     return 0;
 }

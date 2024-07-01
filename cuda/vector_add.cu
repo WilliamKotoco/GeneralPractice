@@ -4,6 +4,16 @@
 #include <stdlib.h>
 
 #define N 10000
+// Error checking macro
+#define CUDA_CHECK_RETURN(value)                                                                                       \
+    {                                                                                                                  \
+        cudaError_t _m_cudaStat = value;                                                                               \
+        if (_m_cudaStat != cudaSuccess)                                                                                \
+        {                                                                                                              \
+            fprintf(stderr, "Error %s at line %d in file %s\n", cudaGetErrorString(_m_cudaStat), __LINE__, __FILE__);  \
+            exit(1);                                                                                                   \
+        }                                                                                                              \
+    }
 
 /// there is no need for loops, each thread corresponds to an interation
 __global__ void vec_add_kernel(float *A, float *B, float *C)
@@ -28,20 +38,22 @@ void vec_add(float *h_a, float *h_b, float *h_c)
     float *d_c;
 
     /// allocating memory in device
-    cudaMalloc((void **)&d_a, N * sizeof(float));
-    cudaMalloc((void **)&d_b, N * sizeof(float));
-    cudaMalloc((void **)&d_c, N * sizeof(float));
+    CUDA_CHECK_RETURN(cudaMalloc((void **)&d_a, N * sizeof(float)));
+    CUDA_CHECK_RETURN(cudaMalloc((void **)&d_b, N * sizeof(float)));
+    CUDA_CHECK_RETURN(cudaMalloc((void **)&d_c, N * sizeof(float)));
 
     /// copying from host to device
     cudaMemcpy(d_a, h_a, N * sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(d_b, h_b, N * sizeof(float), cudaMemcpyHostToDevice);
 
     /// number of blocks and number of threads within a block
-    vec_add_kernel<<<ceil(N / 256.0), 256>>>(d_a, d_b, d_c);
+    vec_add_kernel<<< ceil(N/ 256.0), 256>>>(d_a, d_b, d_c);
 
     /// copying from device to host after performing the vector addition i
     cudaMemcpy(h_c, d_c, N * sizeof(float), cudaMemcpyDeviceToHost);
 
+
+    printf("teste %f \n", h_c[0]);
     /// free device's memory
     cudaFree(d_a);
     cudaFree(d_b);
@@ -55,8 +67,8 @@ int main()
 
     for (int i = 0; i < N; i++)
     {
-        h_a[i] = (float)rand() / 10000;
-        h_b[i] = (float)rand() / 10000;
+        h_a[i] = (float)rand() / (RAND_MAX/100.0);
+        h_b[i] = (float)rand() / (RAND_MAX / 100.0);
     }
 
     vec_add(h_a, h_b, h_c);
