@@ -1,5 +1,7 @@
 # documentation for tensor: https://pytorch.org/docs/stable/tensors.html
 import torch
+import numpy as np
+
 
 scalar = torch.tensor(7)
 
@@ -67,6 +69,40 @@ specific_tensor = torch.rand(
     size=(3, 4, 5),
     dtype=torch.float16,
     device="cpu",
-    requires_grad=False, # wether or not to track gradients
+    requires_grad=False,  # wether or not to track gradients
 )
 print(specific_tensor.device, specific_tensor.requires_grad)
+
+
+# find max and min in tensors
+tensor = torch.rand(50, 50)
+
+# argmin and argmax returns the index of the maximum position
+# it retuns the absolute index
+print(tensor.argmin())
+
+print(tensor.flatten()[tensor.argmin()])
+
+print(tensor.argmax())
+
+print(tensor.flatten()[tensor.argmax()])
+
+
+# We can convert numpy to tensor and also tensor to numpy 
+
+
+print("="*50)
+# we can reduce the randomness by using seeds 
+RANDOM_SEED = 42
+
+torch.manual_seed(RANDOM_SEED)
+almost_randon_tensor = torch.rand(3,4)
+almost_randon_tensor2 = torch.rand(3,4)
+
+print(almost_randon_tensor)
+print(almost_randon_tensor2)
+
+# the random seed works for only one generation
+torch.manual_seed(RANDOM_SEED)
+almost_random_tensor3 = torch.rand(3,4)
+print(almost_randon_tensor == almost_random_tensor3)
