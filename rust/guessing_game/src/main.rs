@@ -11,6 +11,7 @@ use std::cmp::Ordering;
     
     // looop keyword creates an infinite loop
     loop {
+        
 
 
     // in rust variables are immutable by defaut. Once we give them a value 
