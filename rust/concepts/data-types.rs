@@ -13,12 +13,22 @@ fn main() {
 
     // compound types
     let tuple: (i32, f64, u8) = (10, 100.55, 9);
-    
+
+    // destructing the tuple
     let (x, y, z) = tuple;
     println!("Middle value from tuple: {y}");
 
     // it is also possible to acess like a struct
-    println!("Value of index 3 {0}", tuple.2    );
+    println!("Value of index 3 {0}", tuple.2);
+
+    // arrays
+    let age = [10,20,33];
+    let names = ["John", "Karter", "Ribas"];
+    
+    let money: [i32; 5] = [43;5];
+
+    println!("Value of index 0 and 4: {0} and {1}", money[0], money[4]);
 }
+
 
 
