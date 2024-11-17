@@ -18,6 +18,9 @@ fn main()
 
     nestered_loops();
 
+    loop_while();
+
+    for_loop();
 }
 
 fn age() -> bool
@@ -77,5 +80,23 @@ fn nestered_loops()
         }
 
         count += 1;
+    }
+}
+
+fn loop_while()
+{
+    let mut number = 10;
+    while number > 0 {
+        println!("Number is {number}");
+        number -= 1;
+    }
+}
+
+fn for_loop()
+{
+    let a = [10,20,30,50,60];
+
+    for element in a {
+        println!("Element is: {element}");
     }
 }
