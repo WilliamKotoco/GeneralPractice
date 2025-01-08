@@ -1,4 +1,3 @@
-
 use std::io;
 // this program intends to show how to safely access a position in a vector
 fn main() {
@@ -12,7 +11,6 @@ fn main() {
 
         let trimmed = input_text.trim();
 
-
         let index: usize = match trimmed.parse::<usize>() {
             Ok(i) => i,
             Err(_) => {
@@ -21,11 +19,14 @@ fn main() {
             }
         };
 
+        // best way to consult data if acessing an element beyond the
+        // range of the vector may happen under normal circunstances
 
-       match v.get(index) {
-        
+        match v.get(index) {
             Some(result) => println!("Bullet"),
             None => println!("Not a valid position in the revolver"),
         }
+
+        // using let something = &v[10] would crash
     }
 }
