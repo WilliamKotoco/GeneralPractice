@@ -17,6 +17,8 @@ fn main() {
     // the matching from line 12 to 15 can be summarized as:
     let file = File::open("cu.txt").unwrap();
 
+    // use .expected("error message") to customize the error message.
+
     let file_result = File::open("hello.txt");
 
     // handles the error in opening due non existence
