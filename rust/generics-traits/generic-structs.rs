@@ -18,6 +18,13 @@ impl Point<f32>{
     }
 }
 
+
+impl<T> Point<T>{
+    fn get_x(&self) -> &T {
+        &self.x
+    }
+}
+
 fn main()
 {
     let point = Point{x: 5, y: 3};
@@ -29,6 +36,10 @@ fn main()
 
 
     let point3 = Ponint2{x: 3, y: 4.4};
+
+    let x = point.get_x();
+
+    println!("{x}");
 }
 
 
