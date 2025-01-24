@@ -1,3 +1,4 @@
+use core::panic;
 use std::vec;
 
 const OPEN_STATE: u8 = 1;
@@ -7,65 +8,67 @@ const PUSH: u8 = 1;
 const DO_NOTHING: u8 = 0;
 
 // sensor indicates that it is open and the door is indeed open
-const  OPEN_MEASUREMENT_ACC : f32 = 0.6;
+const OPEN_MEASUREMENT_ACC: f32 = 0.6;
 
 // sensor indicates door is closed and it is indeed closed
-const  CLOSE_MEASUREMENT_ACC : f32 = 0.8;
-
-
+const CLOSE_MEASUREMENT_ACC: f32 = 0.8;
 
 // After a push transition, returns the probability of i given j (open or closed)
-const PUSH_TRANSITION_MATRIX = [[f32; 2];2] = [
-    [0.2,0.0],
-    [0.8, 1.0]
+const PUSH_TRANSITION_MATRIX: [[f32; 2]; 2] = [
+    [0.2, 0.0],
+    [0.8, 1.0],
 ];
 
-
-// same as the PUSH_TRANSITION_MATRIX but for no action
-const DO_NOTHING_MATRIX = [[f32;2];2]=[
-    [1.0,0.0],
-    [0.0,1.0]
+const DO_NOTHING_MATRIX: [[f32; 2]; 2] = [
+    [1.0, 0.0],
+    [0.0, 1.0],
 ];
 
-
-fn get_prob_after_action(probability_state : u8, action: u8, prev_state: u8) -> f32
-{
-    if action == PUSH{
-        PUSH_TRANSITION_MATRIX[probability_state][prev_state]
-    }
-    else {
-        DO_NOTHING_MATRIX[probability_state][prev_state]
+fn get_prob_after_action(probability_state: u8, action: u8, prev_state: u8) -> f32 {
+    if action == PUSH {
+        PUSH_TRANSITION_MATRIX[probability_state as usize][prev_state as usize]
+    } else {
+        DO_NOTHING_MATRIX[probability_state as usize][prev_state as usize]
     }
 }
 
-fn get_sensor_prob(state: u8, sensor_mark: u8 ) -> f32{
-    if state == OPEN_STATE{
-        if sensor_mark == OPEN_STATE {0.6} else {0.4} 
-    }
-    else{
-        if sensor_mark == CLOSED_STATE {0.8} else {0.2}
+fn get_sensor_prob(state: u8, sensor_mark: u8) -> f32 {
+    if state == OPEN_STATE {
+        if sensor_mark == OPEN_STATE { 0.6 } else { 0.4 }
+    } else {
+        if sensor_mark == CLOSED_STATE { 0.8 } else { 0.2 }
     }
 }
 
-fn calculate_new_belief(action: u8, last_bel: f32, sense: u8) -> f32{
-    p_bel = get_prob_after_action(OPEN_STATE, action, OPEN_STATE)*last_bel
-            + get_prob_after_action(OPEN_STATE, action, CLOSED_STATE) * (1.0 - last_bel); 
+fn calculate_new_belief(action: u8, last_bel: f32, sense: u8) -> f32 {
+    let p_bel =
+        get_prob_after_action(OPEN_STATE, action, OPEN_STATE) * last_bel +
+        get_prob_after_action(OPEN_STATE, action, CLOSED_STATE) * (1.0 - last_bel);
 
-    
-    bel_open = get_sensor_prob(CLOSED_STATE, sense) * p_bel; 
+    let bel_open = get_sensor_prob(OPEN_STATE, sense) * p_bel;
 
-    bel_close = get_sensor_prob(OPEN_STATE, sense) * (1.0 - p_bel);
+    let bel_close = get_sensor_prob(CLOSED_STATE, sense) * (1.0 - p_bel);
 
-    norm_factor = 1/(bel_open + bel_close);
+    let norm_factor = 1.0 / (bel_open + bel_close);
 
-    (bel_open * norm_factor)
+    bel_open * norm_factor
 }
-fn main()
-{
-
+fn main() {
     // robot's belief that the door is open at measurements time
-    let mut bel = vec![0.5];
-    let mut actions = vec![DO_NOTHING, PUSH];
-    let mut measurements = vec![OPEN_STATE];
+    let mut bel = vec![0.5, 0.75];
+    let mut actions = vec![DO_NOTHING,PUSH];
+    let mut measurements = vec![OPEN_STATE, OPEN_STATE];
 
+    if
+        let (Some(action), Some(belief), Some(measurement)) = (
+            actions.last().copied(),
+            bel.last().copied(),
+            measurements.last().copied(),
+        )
+    {
+        let new_state = calculate_new_belief(action, belief, measurement);
+        print!("{new_state}");
+    } else {
+        panic!("State empty");
+    }
 }
