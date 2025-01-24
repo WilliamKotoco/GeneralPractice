@@ -7,12 +7,6 @@ const CLOSED_STATE: u8 = 0;
 const PUSH: u8 = 1;
 const DO_NOTHING: u8 = 0;
 
-// sensor indicates that it is open and the door is indeed open
-const OPEN_MEASUREMENT_ACC: f32 = 0.6;
-
-// sensor indicates door is closed and it is indeed closed
-const CLOSE_MEASUREMENT_ACC: f32 = 0.8;
-
 // After a push transition, returns the probability of i given j (open or closed)
 const PUSH_TRANSITION_MATRIX: [[f32; 2]; 2] = [
     [0.2, 0.0],
