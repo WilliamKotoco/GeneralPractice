@@ -77,8 +77,11 @@ print(model)
 # nn.Sequential implementes a neural network in which the forward function connects the layers sequentialy
 # as we did in the forward function of CircleModel
 model_replicated = nn.Sequential(
-    nn.Linear(in_features=2, out_features=5),
-    nn.Linear(in_features = 5, out_features=1)
+    nn.Linear(in_features=2, out_features=10),
+    nn.ReLU(),
+    nn.Linear(in_features=10, out_features=10),
+    nn.ReLU(),
+    nn.Linear(in_features = 10, out_features=1)
 ).to(device)
 
 
@@ -95,7 +98,7 @@ optimizer = torch.optim.SGD(params = model_replicated.parameters(),
 
 
 # Training the model
-epochs = 1000
+epochs = 500
 
 # Data on the target device
 x_train, labels_train = x_train.to(device), labels_train.to(device)

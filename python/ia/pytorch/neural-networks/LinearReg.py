@@ -94,3 +94,24 @@ with torch.inference_mode():
 helper.plot_predictions(X_train, Y_train, X_test, y_test, inference)
 
 
+PATH_NAME  = "models/" 
+
+model_name=  "Linear_reg.pth"
+
+# saving pytorch model
+torch.save(model.state_dict(), PATH_NAME + model_name)
+
+
+# loading pythorch model
+
+load_model = LinearRegresion()
+
+load_model.load_state_dict(torch.load(PATH_NAME + model_name))
+
+with torch.inference_mode():
+    inference = model(X_test)
+
+
+
+helper.plot_predictions(X_train, Y_train, X_test, y_test, inference)
+
