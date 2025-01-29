@@ -52,26 +52,6 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 print(x_train.dtype)
 print (x.shape)
-# Constructing a mode
-
-class CircleModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-
-        # creating first layer of the neural network
-        self.layer1 = nn.Linear(in_features = 2, out_features= 5) # takes in 2 features (x.shape)
-        
-        self.layer2 = nn.Linear(in_features=5, out_features= 1) # final classification layer that takes the 5 out features from the previous layer and classify into a single label
-
-
-    # forward pass for our circle model
-    def forward(self, x):
-        return self.layer2(self.layer1(x))
-
-
-model = CircleModel().to(device)
-
-print(model)
 
 
 # nn.Sequential implementes a neural network in which the forward function connects the layers sequentialy
@@ -87,18 +67,17 @@ model_replicated = nn.Sequential(
 
 print(model_replicated)
         
-
 #setup the loss Binary Cross Entorpy, suitable for binary classification 
 # Combines the Sigmoid activation function with the binary cross entropy loss
 loss_function = nn.BCEWithLogitsLoss() 
 
 # SGD optmizer
 optimizer = torch.optim.SGD(params = model_replicated.parameters(),
-                            lr=0.015)
+                            lr=0.1)
 
 
 # Training the model
-epochs = 500
+epochs = 1000
 
 # Data on the target device
 x_train, labels_train = x_train.to(device), labels_train.to(device)
@@ -108,10 +87,11 @@ for epoch in range (epochs):
     model_replicated.train()
 
     # forward pass 
-    y_pred = model_replicated(x_train).squeeze()
+    y_logit = model_replicated(x_train).squeeze()
     
+    y_pred = torch.round(torch.sigmoid(y_logit))
     # Calculate loss 
-    loss = loss_function(y_pred, labels_train)
+    loss = loss_function(y_logit, labels_train)
 
     #optimizer
     optimizer.zero_grad()
@@ -132,7 +112,7 @@ for epoch in range (epochs):
         test_logits = model_replicated(x_test).squeeze()
         test_pred = torch.round(torch.sigmoid(test_logits)) # transform raw data into predictions using the sigmoid funciotn (check BCE)
 
-        loss_test = loss_function(test_pred, labels_test)
+        loss_test = loss_function(test_logits, labels_test)
         
         acc = torch.sum(test_pred == labels_test)/len(labels_test)
 
