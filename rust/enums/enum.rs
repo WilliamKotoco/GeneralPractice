@@ -12,6 +12,7 @@
     // }
 
 // you can put any data into a enum variant
+//
 enum ipAddr{
     v4(String),
     // or v4(u8,u8,u8,u8)
